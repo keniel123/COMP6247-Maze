@@ -32,8 +32,8 @@ The following plots show the rewards achieved and the amount of walls hit and vi
 10 episodes of training.
 
 <img src="total_rewards_plot.png" width="500">
-<img src="total_walls_plot.png" width="500">
-<img src="total_visited_plot.png" width="500">
+<img src="total_walls_hit_plot.png" width="500">
+<img src="total_visited_states_plot.png" width="500">
 
 ## Outputs
 
