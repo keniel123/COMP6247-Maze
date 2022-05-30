@@ -26,6 +26,7 @@ to
 test(<num_of_episodes>) // this will utialize the saved q_table.pt file to initialize the Q-table
 ```
 
+
 ## Graphs
 
 The following plots show the rewards achieved and the amount of walls hit and visited nodes over time during training
@@ -38,3 +39,13 @@ The following plots show the rewards achieved and the amount of walls hit and vi
 ## Outputs
 
 The files Output.txt and testing_output.txt represent the state transitioned during training and testing respectively
+
+## Paths
+
+The following images shows the progression of training in finding the optimal path 
+
+<img src="1_33595.png" width="200">
+<img src="2_5996.png" width="200">
+<img src="3_3584.png" width="200">
+
+
