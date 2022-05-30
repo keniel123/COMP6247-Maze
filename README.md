@@ -44,8 +44,8 @@ The files Output.txt and testing_output.txt represent the state transitioned dur
 
 The following images shows the progression of training in finding the optimal path 
 
-<img src="1_33595.png" width="200">
-<img src="2_5996.png" width="200">
-<img src="3_3584.png" width="200">
+<img src="1_33595.png" width="500">
+<img src="2_5996.png" width="500">
+<img src="3_3584.png" width="500">
 
 
