@@ -1,46 +1,92 @@
-from enum import Enum
-
-from DeepQLearning.dqn import Agent
-from environment import Environment, Action
-from utils.plot import plotLearning
-from utils.read_maze import load_maze
-
+from array import array
+from locale import normalize
+import torch
 import numpy as np
 
 
-def main():
-    agent = Agent(gamma=.99, epsilon=1.0, batch_size=64, n_actions=5, epsilon_end=.01, input_dims=[18], lr=.001)
-    load_maze()
-    env = Environment()
-    scores, epsilon_history = [], []
-    number_games = 200
 
-    for i in range(number_games):
-        score = 0
-        done = False
-        observation = env.reset
-        while not done:
-            #print(observation)
-
-            action = agent.choose_action(observation)
-            observation_, reward, done = env.step(action)
-            env.update_total_reward(reward)
-            score += reward
-            agent.store_transition(observation, action, reward, observation_, done)
-            agent.learn()
-            observation = observation_
-            #print(score)
-        scores.append(score)
-        epsilon_history.append(agent.epsilon)
-
-        avg_score = np.mean(scores[-100:])
-
-        print('episode ', i, "score %.2f" % score, 'average score %.2f' % avg_score, 'epsilon %.2f' % agent.epsilon)
-
-    x = [i + 1 for i in range(number_games)]
-    filename = "dynamic_maze.png"
-    plotLearning(x, scores, epsilon_history, filename)
+load_maze()
+Maze=Environment()
 
 
-if __name__ == "__main__":
-    main()
+def train(num_episodes):
+  
+  ##### Training
+  while Maze.episode<num_episodes:
+
+      Maze.action(is_train=True, render=False)
+      
+      epsilon = epsilon * epsilon_decay
+  print( Maze.reward_history)
+  # Plot total rewards for each episode
+  fig_2 = plt.figure(10)
+  ax_2 = fig_2.gca()
+  ax_2.plot(np.arange(1, num_episodes), Maze.reward_history,  color='green')
+  ax_2.set_title('Total rewards plot', fontsize=14)
+  ax_2.set_xlabel('episode')
+  ax_2.set_ylabel('Total reward')
+  ax_2.grid()
+  ax_2.set_xticks(range(1, num_episodes, 1))
+  fig_2.savefig('total_rewards_plot.png')
+  plt.clf() 
+
+  # Plot walls hit for each episode
+  print(Maze.wall_count_history)
+  fig_3 = plt.figure(10)
+  ax_3 = fig_3.gca()
+  ax_3.plot(np.arange(1, num_episodes), Maze.wall_count_history,  color='red')
+  ax_3.set_title('Total walls hit plot', fontsize=14)
+  ax_3.set_xlabel('episode')
+  ax_3.set_ylabel('Total Walls Hit')
+  ax_3.grid()
+  ax_3.set_xticks(range(1, num_episodes, 1))
+  fig_3.savefig('total_walls_hit_plot.png')
+  plt.clf() 
+  
+  print(Maze.visited_count_history)
+
+  # Plot visited states for each episode
+  fig_4 = plt.figure(10)
+  ax_4 = fig_4.gca()
+  ax_4.plot(np.arange(1, num_episodes), Maze.visited_count_history,  color='orange')
+  ax_4.set_title('Total Visited States plot', fontsize=14)
+  ax_4.set_xlabel('episode')
+  ax_4.set_ylabel('Total Visited States')
+  ax_4.grid()
+  ax_4.set_xticks(range(1, num_episodes, 1))
+  fig_4.savefig('total_visited_states_plot.png')
+  plt.clf() 
+
+
+  # Plot fire states for each episode
+  fig_4 = plt.figure(10)
+  ax_4 = fig_4.gca()
+  ax_4.plot(np.arange(1, num_episodes), Maze.fire_count_history,  color='red')
+  ax_4.set_title('Total Fire States plot', fontsize=14)
+  ax_4.set_xlabel('episode')
+  ax_4.set_ylabel('Total Fire States')
+  ax_4.grid()
+  ax_4.set_xticks(range(1, num_episodes, 1))
+  fig_4.savefig('total_fire_states_plot.png')
+  plt.clf() 
+  
+  torch.save(Maze.qlearning.q_table, 'q_table.pt')
+
+def test(num_episodes):
+  if(os.path.exists('q_table.pt')):
+    Maze.qlearning.q_table = torch.load('q_table.pt')
+    #Maze.q_values = torch.load('q_table.pt')
+    # Evaluate
+    print("Evaluating Q Agent.")
+    # Create .txt output file
+    f = open('output_eval.txt', 'w')
+    f.write('Dynamic maze solving algorithm - output file \n')
+    f.close()
+    while Maze.episode<num_episodes:
+        Maze.action(is_train=False, render=False)
+   
+  
+
+train(6)
+##### Evaluation
+
