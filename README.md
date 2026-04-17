@@ -80,16 +80,6 @@ To evaluate using a saved table, switch to:
 test(<num_episodes>)
 ```
 
-## What I’d improve next (job-readiness)
-
-If you want this repo to read well for ML engineer / research roles, the next upgrades are:
-
-- Add a short **Problem Setup** section (state, action space, reward function)
-- Document **hyperparameters** (α, γ, ε schedule) and default values
-- Add a **Reproducibility** note (Python version, deterministic seeds if used)
-- Add a **small benchmark table** (episodes to reach goal / mean reward)
-- Add a short **"What I learned"** section (tradeoffs, failure modes)
-
 ## License
 
 See [LICENSE](LICENSE).
